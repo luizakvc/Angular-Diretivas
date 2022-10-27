@@ -1,0 +1,44 @@
+<!-- ngIf-->
+
+<div class="card" *ngIf="mostrarProduto == true; else conteudoAlternativo">
+    <img [src]="prod.imagem" alt="" class="card-image-top">
+    <div class="card-body">
+        <h5 class="card-title">{{prod.nome}}</h5>
+        <h6 class="card-subtitle text-muted"> R$ {{prod.preco}}</h6>
+        <!-- Se o estoque <= 10 fica vermelho
+            se <=30> fica amarelo
+            se >100 fica verde
+        
+                azul = bg-primary
+                amarelo = bg-warning
+                vermelho = bg danger
+                verde = bg-sucess-->
+        <span 
+            class="badge mb-1"
+            [ngClass]="{
+                'bg-danger': prod.estoque <= 10,
+                'bg-warning' : prod.estoque > 10 && prod.estoque <= 30,
+                'bg-primary' : prod.estoque > 30 && prod.estoque <= 100,
+                'bg-success' : prod.estoque > 100
+            }"
+        >
+            {{prod.estoque}} unidades restantes
+        </span>
+        <p class="card-text text-truncate">
+            {{prod.descricao}}
+        </p>
+        <button class="btn btn-sm btn-danger" (click)="esconderProduto()">
+            Esconder produto
+        </button>
+        <button class="btn tbn-sm" (click)="emitirEventoDeletar()">&times;</button>
+    </div>
+    </div>
+    <ng-template #conteudoAlternativo>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">O produto {{prod.nome}} não aparecerá para usuários desse site</p>
+                <button class="btn btn-danger" (click)="aparecerProduto()">Mostrar novamente</button>
+                
+            </div>
+            </div>
+    </ng-template>
